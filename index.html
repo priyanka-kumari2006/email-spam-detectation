@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Spam Message Classification Using Python & Machine Learning</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root {
+            --bg-color-light: #f8f9fa;
+            --text-color-light: #212529;
+            --bg-color-dark: #121212;
+            --text-color-dark: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: var(--bg-color-dark) !important;
+            color: var(--text-color-dark) !important;
+        }
+
+        .dark-mode .form-control {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #495057;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .form-control {
+            background-color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-toggle {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <button class="btn btn-secondary btn-toggle" onclick="toggleMode()" id="modeToggleBtn">🌙</button>
+        <h1 class="mb-4">Email Spam Message Detector</h1>
+        <form method="POST" action="{{ url_for('analyze_mail') }}">
+            <div class="form-group">
+                <label for="mail">Enter your mail context:</label>
+                <textarea class="form-control" id="mail" name="mail" rows="3">{{ request.form.mail }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+
+        {% if classify is defined %}
+            <div class="mt-4">
+                {% if classify == 0 %}
+                    <div class="alert alert-danger" role="alert">This is a spam mail</div>
+                {% elif classify == 1 %}
+                    <div class="alert alert-success" role="alert">This is a ham mail</div>
+                {% endif %}
+                <div class="mt-3">
+                    <strong>Mail Content:</strong>
+                    <div class="p-3 border rounded" style="white-space: pre-wrap;">{{ request.form.mail }}</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const btn = document.getElementById("modeToggleBtn");
+            const darkModeEnabled = body.classList.toggle("dark-mode");
+
+            localStorage.setItem("darkMode", darkModeEnabled);
+            btn.textContent = darkModeEnabled ? "☀️" : "🌙";
+        }
+
+        // On load, enable dark mode by default unless user has explicitly set preference
+        window.onload = function () {
+            const userPreference = localStorage.getItem("darkMode");
+            const body = document.body;
+            const btn = document.getElementById("modeToggleBtn");
+
+            if (userPreference === null || userPreference === "true") {
+                body.classList.add("dark-mode");
+                btn.textContent = "☀️";
+            } else {
+                btn.textContent = "🌙";
+            }
+        };
+    </script>
+</body>
+</html>
