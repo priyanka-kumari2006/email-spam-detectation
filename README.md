@@ -1,3 +1,13 @@
+
+## 🔗 Live Demo
+
+You can check out the live version of the project here:
+👉 [Email Spam Detection Web App](https://emailspamdectetor-by-priyanka.netlify.app/)
+
+---
+
+You can place this section anywhere in your README file — typically after the project description or at the end. If you'd like me to integrate this into a full README structure, just let me know.
+
 # 📧 Email Spam Detection – ML Project
 
 A lightweight web app that classifies emails as **Spam** or **Ham** using Machine Learning.
